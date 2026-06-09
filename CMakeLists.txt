@@ -24,6 +24,17 @@ else()
     target_compile_definitions(SampleTower PUBLIC DISTRHO_PLUGIN_HAS_UI=0)
 endif()
 
+# Tier 3 — targeted fast-math subset on the DSP objects only. DPF compiles the
+# FILES_DSP into a static lib named SampleTower-dsp; scoping the flag there keeps
+# it off the DGL/UI/framework code. -funsafe-math-optimizations enables
+# reassociation / reciprocal / no-math-errno / FMA WITHOUT -ffinite-math-only
+# (NaN/Inf semantics preserved) and WITHOUT linking crtfastmath (so the explicit
+# FTZ in DenormalGuard.hpp still governs denormals). Verified output-equivalent
+# within -80 dB vs -O3 (tools/regression/ab.sh sampletower --cxxflags ...).
+if(TARGET SampleTower-dsp)
+    target_compile_options(SampleTower-dsp PRIVATE -funsafe-math-optimizations)
+endif()
+
 target_include_directories(SampleTower PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/plugin
     ${CMAKE_CURRENT_SOURCE_DIR}/dsp
