@@ -32,7 +32,7 @@ public:
     }
     void killAll() noexcept { for (auto& v : voices_) v.stopImmediately(); }
 
-    inline void render(float* L, float* R, uint32_t n) noexcept {
+    inline void render(float* __restrict L, float* __restrict R, uint32_t n) noexcept {
         for (auto& v : voices_) v.render(L, R, n);
     }
 

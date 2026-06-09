@@ -1,5 +1,6 @@
 #include "SampleTowerPlugin.hpp"
 #include "DspMath.hpp"
+#include "DenormalGuard.hpp"
 #include "AudioFile.hpp"
 #include "SampleConfig.hpp"
 #include <cstdio>
@@ -117,6 +118,7 @@ void SampleTowerPlugin::handleMidi(const MidiEvent& ev)
 void SampleTowerPlugin::run(const float**, float** outputs, uint32_t frames,
                             const MidiEvent* midiEvents, uint32_t midiEventCount)
 {
+    ftz::armOnce();
     float* outL = outputs[0];
     float* outR = outputs[1];
     std::memset(outL, 0, frames * sizeof(float));
