@@ -85,7 +85,7 @@ output reproduces the source WAV to better than −120 dB). Run with `ctest`.
 
 ## Cross-build for Bela (aarch64)
 
-From the parent `nexus-preamp` repo:
+From the parent integration repo:
 
 ```bash
 ./cross-build-dpf-plugin.sh plugins/sampletower-dpf            # headless
@@ -93,6 +93,10 @@ From the parent `nexus-preamp` repo:
 
 Output: `build-arm64/sampletower-dpf/SampleTower.vst3`. The script auto-detects
 the `SAMPLETOWER_BUILD_UI` CMake option.
+
+## Performance
+
+See [OPTIMIZATIONS.md](OPTIMIZATIONS.md) for the Cortex-A53 optimization work, measured gains, and why SIMD was rejected.
 
 ## License
 
